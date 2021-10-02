@@ -1,0 +1,127 @@
+SQL> create table employee(name varchar2(10),da number(10),hr number(10),ta number(10),salary number(10));
+
+Table created.
+
+
+SQL> insert into employee values('&name','&da','&hr','&ta','&salary');
+Enter value for name: Allu
+Enter value for da: 1000
+Enter value for hr: 2000
+Enter value for ta: 1000
+Enter value for salary: 15000
+old   1: insert into employee values('&name','&da','&hr','&ta','&salary')
+new   1: insert into employee values('Allu','1000','2000','1000','15000')
+
+1 row created.
+
+SQL> insert into employee values('&name','&da','&hr','&ta','&salary');
+Enter value for name: Ashwin
+Enter value for da: 1000
+Enter value for hr: 3000
+Enter value for ta: 15000
+Enter value for salary: 20000
+old   1: insert into employee values('&name','&da','&hr','&ta','&salary')
+new   1: insert into employee values('Ashwin','1000','3000','15000','20000')
+
+1 row created.
+
+SQL> insert into employee values('&name','&da','&hr','&ta','&salary');
+Enter value for name: Akshay
+Enter value for da: 500
+Enter value for hr: 2000
+Enter value for ta: 500
+Enter value for salary: 90000
+old   1: insert into employee values('&name','&da','&hr','&ta','&salary')
+new   1: insert into employee values('Akshay','500','2000','500','90000')
+
+1 row created.
+
+SQL> insert into employee values('&name','&da','&hr','&ta','&salary');
+Enter value for name: Amal
+Enter value for da: 900
+Enter value for hr: 2500
+Enter value for ta: 1000
+Enter value for salary: 11000
+old   1: insert into employee values('&name','&da','&hr','&ta','&salary')
+new   1: insert into employee values('Amal','900','2500','1000','11000')
+
+1 row created.
+
+SQL> insert into employee values('&name','&da','&hr','&ta','&salary');
+Enter value for name: Ammu
+Enter value for da: 1500
+Enter value for hr: 1000
+Enter value for ta: 2000
+Enter value for salary: 100000
+old   1: insert into employee values('&name','&da','&hr','&ta','&salary')
+new   1: insert into employee values('Ammu','1500','1000','2000','100000')
+
+1 row created.
+
+SQL> select * from employee;
+
+NAME               DA        hr         TA     SALARY
+---------- ---------- ---------- ---------- ----------
+Akash            1000       2000       1000      15000
+Ashwin            1000       3000      15000      20000
+Akshay              500       2000        500      90000
+Amal            900       2500       1000      11000
+Ammu            1500       1000       2000     100000
+
+
+A)   SQL> create view empview as select name,salary from employee where salary >10000;
+
+      View created.
+
+     SQL> select * from empview;
+
+       NAME           SALARY
+      ---------- ----------
+       Akash           15000
+       Ashwin           20000
+       Akshay            90000
+       Amal          11000
+       Ammu          100000
+	   
+	   
+B)	 SQL> update employee set salary = 25000;
+
+     5 rows updated.
+
+     SQL> select * from employee;
+
+       NAME               DA        hr         TA     SALARY
+     ---------- ---------- ---------- ---------- ----------
+       Akash            1000       2000       1000      25000
+       Ashwin            1000       3000      15000      25000
+       Akshay              500       2000        500      25000
+       Amal            900       2500       1000      25000
+       Ammu            1500       1000       2000      25000
+
+     SQL> select * from empview;
+
+        NAME           SALARY
+      ---------- ----------
+        Akash           25000
+        Ashwin           25000
+        Akshay            25000
+        Amal          25000
+        Ammu           25000
+
+C)   SQL> update empview set salary = 1000;
+
+     5 rows updated.
+
+     SQL> select * from empview;
+
+     no rows selected
+
+     SQL> select * from employee;
+
+       NAME               DA        hr         TA     SALARY
+    ---------- ---------- ---------- ---------- ----------
+       Akash            1000       2000       1000       1000
+       Ashwin            1000       3000      15000       1000
+       Akshay             500       2000        500       1000
+       Amal              900       2500       1000       1000
+       Ammu              1500       1000       2000       1000
