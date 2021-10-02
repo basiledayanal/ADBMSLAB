@@ -1,0 +1,52 @@
+1.In database Employee.
+1. find the average salary of each dept.
+2. find the minimum salary of each dept.
+3. find the average salary of each dept.
+4. find the no.of employees of each dept.
+5. sort the collection empDetails in descending order of name
+6. Create a text index for ‘name’ and search for names mohan and bhuvan
+
+> use emp
+switched to db emp
+
+> show dbs
+admin     0.000GB
+config    0.000GB
+emp       0.000GB
+basil     0.000GB
+local     0.000GB
+med_data  0.000GB
+test      0.000GB
+
+> show collections
+empDetails
+
+> db.empDetails.find()
+{ "_id" : ObjectId("613726aa40cbedb84b494e0d"), "Name" : "Mohan", "Age" : 30, "Email" : "mohan12345@gmail.com", "salary" : 5000 }
+{ "_id" : ObjectId("613726d340cbedb84b494e0e"), "Name" : "Raju", "Age" : 35, "Email" : "raju@gmail.com", "salary" : 7000 }
+{ "_id" : ObjectId("613726fc40cbedb84b494e0f"), "Name" : "Bhuvan", "Age" : 25, "Email" : "bhuvan@gmail.com", "salary" : 10000 }
+{ "_id" : ObjectId("6137272f40cbedb84b494e10"), "Name" : "Dilsha", "Age" : 27, "Email" : "dinu@gmail.com", "salary" : 9000 }
+{ "_id" : ObjectId("6137275040cbedb84b494e11"), "Name" : "Harsha", "Age" : 28, "Email" : "anu@gmail.com", "salary" : 15000 }
+
+> db.empDetails.aggregate([{$group:{_id:"$dept","avg salary":{$avg:"$salary"}}}])
+{ "_id" : null, "avg salary" : 9200 }
+
+> db.empDetails.aggregate([{$group:{_id:"$dept","min salary":{$min:"$salary"}}}])
+{ "_id" : null, "min salary" : 5000 }
+
+> db.empDetails.aggregate([{$group:{_id:"$dept","max salary":{$max:"$salary"}}}])
+{ "_id" : null, "max salary" : 15000 }
+
+> db.empDetails.aggregate([{$group:{_id:"$dept","no of emp":{$sum:1}}}])
+{ "_id" : null, "no of emp" : 5 }
+
+> db.empDetails.find().sort({"Name": -1})
+{ "_id" : ObjectId("613726d340cbedb84b494e0e"), "Name" : "Raju", "Age" : 35, "Email" : "raju@gmail.com", "salary" : 7000 }
+{ "_id" : ObjectId("613726aa40cbedb84b494e0d"), "Name" : "Mohan", "Age" : 30, "Email" : "mohan12345@gmail.com", "salary" : 5000 }
+{ "_id" : ObjectId("6137275040cbedb84b494e11"), "Name" : "Harsha", "Age" : 28, "Email" : "anu@gmail.com", "salary" : 15000 }
+{ "_id" : ObjectId("6137272f40cbedb84b494e10"), "Name" : "Dilsha", "Age" : 27, "Email" : "dinu@gmail.com", "salary" : 9000 }
+{ "_id" : ObjectId("613726fc40cbedb84b494e0f"), "Name" : "Bhuvan", "Age" : 25, "Email" : "bhuvan@gmail.com", "salary" : 10000 }
+
+> db.empDetails.updateMany({Age:30},{$set: {Name:"Mohan"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 0 }
+> db.empDetails.find({$text:{$search:"Mohan Bhuvan"}})

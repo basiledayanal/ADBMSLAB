@@ -1,0 +1,42 @@
+create a database Inventory and create an orders collection. Apply MapReduce operation for
+finding the total purchase of each customer.
+
+> db.orders.insert({cusid:200,name:"sabu",item:"rice",price:340})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:201,name:"Abu",item:"rice",price:340})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:202,name:"Deepu",item:"suger",price:35})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:201,name:"Abu",item:"wheat",price:40})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:202,name:"Deepu",item:"Tea powder",price:235})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:203,name:"Babu",item:"wheat",price:40})
+WriteResult({ "nInserted" : 1 })
+
+> db.orders.insert({cusid:202,name:"Deepu",item:"tea powder",price:235})
+WriteResult({ "nInserted" : 1 })
+
+> var mapFunction1 = function() { emit(this.custid, this.price);};
+
+> var reduceFunction1 = function(keyCustid,valuesPrices){return Array.sum(valuesPrices);};
+
+> db.orders.mapReduce( mapFunction1,reduceFunction1,{ out:"map_example"})
+{ "result" : "map_example", "ok" : 1 }
+
+> db.map_example.find()
+{ "_id" : null, "value" : 1265 }
+
+> db.orders.find()
+{ "_id" : ObjectId("614033baa0fff2ad1ad85659"), "cusid" : 200, "name" : "sabu", "item" : "rice", "price" : 340 }
+{ "_id" : ObjectId("614033e0a0fff2ad1ad8565a"), "cusid" : 201, "name" : "Abu", "item" : "rice", "price" : 340 }
+{ "_id" : ObjectId("61403407a0fff2ad1ad8565b"), "cusid" : 202, "name" : "Deepu", "item" : "suger", "price" : 35 }
+{ "_id" : ObjectId("61403425a0fff2ad1ad8565c"), "cusid" : 201, "name" : "Abu", "item" : "wheat", "price" : 40 }
+{ "_id" : ObjectId("61403448a0fff2ad1ad8565d"), "cusid" : 202, "name" : "Deepu", "item" : "Tea powder", "price" : 235 }
+{ "_id" : ObjectId("6140346fa0fff2ad1ad8565e"), "cusid" : 203, "name" : "Babu", "item" : "wheat", "price" : 40 }
+{ "_id" : ObjectId("6140348fa0fff2ad1ad8565f"), "cusid" : 202, "name" : "Deepu", "item" : "tea powder", "price" : 235 }
